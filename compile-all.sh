@@ -31,5 +31,3 @@ if [[ ${CREATE_SINGLE_PAGES} = true ]] ; then
 find . -maxdepth ${SEARCH_DEPTH} -type f -name "${MARKDOWN_FILENAME}${MARKDOWN_EXTENSION}" -print0 | xargs -0 -I{} -n1 -P1 /bin/bash -c './bin/makepdf-book-sh.sh "{}"'
 fi
 
-# Erstellen von HTML Dokumenten pro Ordner
-# find . -type f -name '*.pandoc' -print0 | xargs -0 -I{} -n1 -P8 /bin/bash -c './bin/makepdf-extended-html.sh "{}"'
