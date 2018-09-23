@@ -20,17 +20,17 @@ if [[ ${BOOK} = true ]] ; then
     else
         cat "${BASENAME}.txt" > $FILENAME_TEMP.index
     fi
-    cat $FILENAME_TEMP.index
+    [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
     # Combine files
     while read p; do
-        SED_YAML_HEADER='/^---[[:space:]]*$/{x;s/^/x/;/x\{2\}/{x;q;};x;}'
+        SED_YAML_HEADER='/---[[:space:]]*$/{x;s/^/x/;/x\{2\}/{x;q;};x;}'
         if [[ $p = "./_index${MARKDOWN_EXTENSION}" ]] ; then
             sed ${SED_YAML_HEADER} _index${MARKDOWN_EXTENSION} >> $FILENAME_TEMP
         else
             DIR=$(dirname "${p}")
-            sed ${SED_YAML_HEADER} $p >> $FILENAME_TEMP
+            # sed ${SED_YAML_HEADER} $p >> $FILENAME_TEMP
             if [[ ! $(basename "${p}") = "_"* ]] ; then
-                echo "#" `sed ${SED_YAML_HEADER} $p | grep title | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
+                echo "#" `sed ${SED_YAML_HEADER} $p | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
                 echo >> $FILENAME_TEMP
             fi
             awk "NR > `sed ${SED_YAML_HEADER} $p | wc -l` { print }" < $p | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
@@ -92,6 +92,8 @@ if [[ ! -z $(grep "\chapter{.*}\|\part{.*}" "$FILENAME_TEMP") ]] ; then
     COMMAND_BOOK="-V book"
 fi
 
+[[ -n ${DIVISION_LEVEL} ]] && COMMAND_TOP_LEVEL_DIVISION="--top-level-division=${DIVISION_LEVEL}"
+
 echo ${PANDOC_COMMAND} /usr/share/blog/titlepage.yml $FILENAME_TEMP -o "$BASENAME.pdf" -s \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
@@ -104,17 +106,18 @@ echo ${PANDOC_COMMAND} /usr/share/blog/titlepage.yml $FILENAME_TEMP -o "$BASENAM
     ${COMMAND_TOC_ON_OWN_PAGE} \
     ${COMMAND_LISTINGS} \
     ${COMMAND_COLORLINKS} \
-    $CUSTOM \
+    ${COMMAND_TOP_LEVEL_DIVISION} \
+    ${CUSTOM} \
     -V logo-jku=$BASE_DIR/.pandoc/templates/jku_de.pdf \
     -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
 
-cat start.sh
+[[ ${DEBUG} = true ]] && cat start.sh
 
-bash start.sh
+time bash start.sh
 
-$FILENAME_TEMP
+rm $FILENAME_TEMP
 rm start.sh
 [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
-printf "%100s\n" |tr " " "!"
-printf "%100s\n" |tr " " "!"
+[[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
+[[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
