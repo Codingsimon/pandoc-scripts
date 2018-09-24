@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ## The following script is divided into two parts. 
-## - create a PDF from multiple markdown files
-## - create a PDF from a single markdown file
+## - create a HTML from multiple markdown files
+## - create a HTML from a single markdown file
 sleep `printf "0.%04d\n" $(( RANDOM % 10000 ))`
 # Setup environment variables
 source $(dirname "$0")/setup.sh $PWD $1 
@@ -15,7 +15,6 @@ SED_YAML_HEADER='/---[[:space:]]*$/{x;s/^/x/;/x\{2\}/{x;q;};x;}'
 # Create temporary markdown file
 if [[ ${BOOK} = true ]] ; then
     if [[ ${BOOK_FILETYPE} = BASH ]] ; then
-        #[[ -e ${BASENAME}.pandoc ]] && echo ./${BASENAME}.pandoc > $FILENAME_TEMP.index
         export MARKDOWN_FILENAME
         export MARKDOWN_EXTENSION
         ./${BASENAME}.sh >> $FILENAME_TEMP.index
@@ -102,16 +101,6 @@ if [[ ${PANDOC_CITEPROC} = true ]] ; then
     COMMAND_CITEPROC="--filter pandoc-citeproc"
 fi
 
-## Listings
-[[ ${USE_LISTINGS} = true ]] && COMMAND_LISTINGS="--listings -M listings=true"
-
-## Better solution would be to convert to tex and check
-if [[ ! -z $(grep "\chapter{.*}\|\part{.*}" "$FILENAME_TEMP") ]] ; then 
-    COMMAND_BOOK="-V book"
-fi
-
-[[ -n ${DIVISION_LEVEL} ]] && COMMAND_TOP_LEVEL_DIVISION="--top-level-division=${DIVISION_LEVEL}"
-
 [[ ${PANDOC_YOUTUBE_VIDEO_LINKS} = true ]] && COMMAND_YOUTUBE_FILTER="--filter pandoc-youtube-video-links.py"
 
 OUTPUT_DIR="./"
@@ -128,14 +117,9 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -t html5 -o "$OUTPUT_DIR/$BASENAME.html" \
     ${COMMAND_CROSSREF} \
     ${COMMAND_CITEPROC} \
     ${COMMAND_YOUTUBE_FILTER} \
-    ${COMMAND_BOOK} \
     ${COMMAND_LISTINGS} \
-    ${COMMAND_TOP_LEVEL_DIVISION} \
     ${CUSTOM} \
-    ${CUSTOM_APPEND} \
-    -V logo-jku=$BASE_DIR/.pandoc/templates/jku_de.pdf \
-    -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
-    -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
+    ${CUSTOM_APPEND} > start.sh 
 
 # cat start.sh
 
