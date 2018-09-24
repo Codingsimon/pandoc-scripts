@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Set source file and basename
-SOURCE_FILE="$2"
+SOURCE_FILE="$2" # relative file path
 printf "%100s\n" |tr " " "="
 printf "%-40s%s\n" "Source file:" ${SOURCE_FILE} 
 printf "%100s\n" |tr " " "="
 
 # Set directory variables
-BASE_DIR="$1"
-BIN_DIR=$(dirname "$0")
-WORKING_DIR=$(dirname "$2")
+BASE_DIR="$1" # working directory of the docker image (/usr/share/blog)
+BIN_DIR=$(dirname "$0") # relative path to the scripts directory (./bin)
+WORKING_DIR=$(dirname "${SOURCE_FILE}") # relative direcrory of the current source file
 
 [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "[BASE_DIR]:" ${BASE_DIR}
 [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "[BIN_DIR]:" ${BIN_DIR}
@@ -27,8 +27,7 @@ else
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
 
-BOOK_FILETYPE=
-
+# Check the file typ of the source file
 if [[ $2 =~ .sh || $2 =~ .txt ]] ; then
     if [[ $2 =~ .sh ]] ; then
         BASENAME=$(basename "${SOURCE_FILE}" .sh)

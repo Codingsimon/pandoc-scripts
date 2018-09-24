@@ -115,18 +115,19 @@ fi
 [[ ${PANDOC_YOUTUBE_VIDEO_LINKS} = true ]] && COMMAND_YOUTUBE_FILTER="--filter pandoc-youtube-video-links.py"
 
 OUTPUT_DIR="./"
-
 if [[ $2 ]]; then
-  OUTPUT_DIR="$BASE_DIR/$2/build/pdf/$WORKING_DIR"
+  OUTPUT_DIR="$BASE_DIR/$2/build/html/$WORKING_DIR"
   mkdir -p "$OUTPUT_DIR"
+  if [[ ! $BOOK = true ]] ; then
+    find . -type f -not -name "*${MARKDOWN_EXTENSION}" -exec cp '{}' $OUTPUT_DIR'/{}' ';'
+  fi
 fi
 
-echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.pdf" -s \
+echo ${PANDOC_COMMAND} $FILENAME_TEMP -t html5 -o "$OUTPUT_DIR/$BASENAME.html" \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
     ${COMMAND_CITEPROC} \
     ${COMMAND_YOUTUBE_FILTER} \
-    --template=${PANDOC_PDF_TEMPLATE} \
     ${COMMAND_BOOK} \
     ${COMMAND_LISTINGS} \
     ${COMMAND_TOP_LEVEL_DIVISION} \
@@ -135,6 +136,8 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.pdf" -s \
     -V logo-jku=$BASE_DIR/.pandoc/templates/jku_de.pdf \
     -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
+
+# cat start.sh
 
 bash start.sh
 
