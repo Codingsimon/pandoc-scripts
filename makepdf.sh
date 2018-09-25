@@ -1,84 +1,102 @@
 #!/bin/bash
 
+OUTPUT_DIR="./"
+
+POSITIONAL=()
+
+while [[ $# -gt 0 ]] ; do
+    key="$1"
+
+    case $key in
+        -s|--source)
+            SF="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -o|--outdir)
+            OUTPUT_DIR="$2"
+            shift
+            shift
+            ;;
+        --html)
+            OUTPUT_FORMAT="html"
+            shift
+            ;;
+        --pdf)
+            OUTPUT_FORMAT="pdf"
+            shift
+            ;;
+        *)    # unknown option
+            POSITIONAL+=("$1") # save it in an array for later
+            shift # past argument
+            ;;
+    esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+if [[ -z $OUTPUT_FORMAT ]] ; then 
+    echo Es wurde kein Ausgabeformat übergeben
+fi
+
 ## The following script is divided into two parts. 
 ## - create a PDF from multiple markdown files
 ## - create a PDF from a single markdown file
-sleep `printf "0.%04d\n" $(( RANDOM % 10000 ))`
+
+## read commonly used functions
+. $(dirname "$0")/functions.sh
+
+## sleep as it seems that the processes interfer if startet at the same time
+sleep_one_second
+
 # Setup environment variables
-source $(dirname "$0")/setup.sh $PWD $1 
+source $(dirname "$0")/setup.sh $PWD $SF 
 
 # Change to the file directory
 cd "$WORKING_DIR"
 
-SED_YAML_HEADER='/---[[:space:]]*$/{x;s/^/x/;/x\{2\}/{x;q;};x;}'
-
 # Create temporary markdown file
 if [[ ${BOOK} = true ]] ; then
     if [[ ${BOOK_FILETYPE} = BASH ]] ; then
-        #[[ -e ${BASENAME}.pandoc ]] && echo ./${BASENAME}.pandoc > $FILENAME_TEMP.index
+        # file index is created by a bash file
         export MARKDOWN_FILENAME
         export MARKDOWN_EXTENSION
         ./${BASENAME}.sh >> $FILENAME_TEMP.index
     else
+        # file index is manually defined in a text file
         cat "${BASENAME}.txt" > $FILENAME_TEMP.index
     fi
+
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
+
     # Combine files
     while read p; do
         if [[ $p = "./_index${MARKDOWN_EXTENSION}" ]] ; then
-            echo "---" >> $FILENAME_TEMP
-            sed ${SED_YAML_HEADER} _index${MARKDOWN_EXTENSION} | sed  '1d;$d' >> $FILENAME_TEMP
-            echo "---" >> $FILENAME_TEMP
-
-            echo "---" >> $FILENAME_TEMP
-            if [[ -e $BASE_DIR/settings-book.yml ]] ; then
-                cat $BASE_DIR/settings-book.yml >> $FILENAME_TEMP
-            fi
-            echo "---" >> $FILENAME_TEMP
-
-            echo "---" >> $FILENAME_TEMP
-            if [[ -e $BASE_DIR/settings-general.yml ]] ; then
-                cat $BASE_DIR/settings-general.yml >> $FILENAME_TEMP
-            fi
-            echo "---" >> $FILENAME_TEMP
-            echo >> $FILENAME_TEMP
+            # first the frontmatter defined in the source file
+            create_frontmatter "book"
         else
             DIR=$(dirname "${p}")
-            # sed ${SED_YAML_HEADER} $p >> $FILENAME_TEMP
+            # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
                 echo "#" `sed ${SED_YAML_HEADER} $p | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
-                echo >> $FILENAME_TEMP
-                echo >> $FILENAME_TEMP
+                print_empty_lines ${FILENAME_TEMP}
             fi
+            # add the source file content without frontmatter
             LINES=$(sed ${SED_YAML_HEADER} ${p} | wc -l)
             awk "NR > $LINES" < $p | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
-            echo >> $FILENAME_TEMP
-            echo >> $FILENAME_TEMP
+            print_empty_lines ${FILENAME_TEMP}
         fi
     done < $FILENAME_TEMP.index  
 else
-    echo "---" >> $FILENAME_TEMP
-    sed ${SED_YAML_HEADER} ${BASENAME}${MARKDOWN_EXTENSION} | sed  '1d;$d' >> $FILENAME_TEMP
-    echo "---" >> $FILENAME_TEMP
-
-    echo "---" >> $FILENAME_TEMP
-    if [[ -e $BASE_DIR/settings-single.yml ]] ; then
-        cat $BASE_DIR/settings-single.yml >> $FILENAME_TEMP
-    fi
-    echo "---" >> $FILENAME_TEMP
-
-    echo "---" >> $FILENAME_TEMP
-    if [[ -e $BASE_DIR/settings-general.yml ]] ; then
-        cat $BASE_DIR/settings-general.yml >> $FILENAME_TEMP
-    fi
-    echo "---" >> $FILENAME_TEMP
-    
+    create_frontmatter "single"
     LINES=$(sed ${SED_YAML_HEADER} ${BASENAME}${MARKDOWN_EXTENSION} | wc -l)
     awk "NR > $LINES { print }" < ${BASENAME}${MARKDOWN_EXTENSION} >> $FILENAME_TEMP
-    echo >> $FILENAME_TEMP
-    echo >> $FILENAME_TEMP
+    print_empty_lines ${FILENAME_TEMP}
 fi
 
+###############################################################################
+# Pandoc filter
+###############################################################################
+# demote headings if content file
 if [[ ! $BOOK = true ]] ; then
     FILTER_DEMOTE_HEADER="--filter demoteHeaders.hs"
 fi
@@ -98,35 +116,52 @@ if [[ ${PANDOC_CROSSREF} = true ]] ; then
     COMMAND_CROSSREF="--filter pandoc-crossref -M crossrefYaml=${CROSSREF_PRESET_FILE}"
 fi
 
+# pandoc-citeproc
+# TODO add CSL and options
 if [[ ${PANDOC_CITEPROC} = true ]] ; then
     COMMAND_CITEPROC="--filter pandoc-citeproc"
 fi
 
-## Listings
-[[ ${USE_LISTINGS} = true ]] && COMMAND_LISTINGS="--listings -M listings=true"
-
-## Better solution would be to convert to tex and check
-if [[ ! -z $(grep "\chapter{.*}\|\part{.*}" "$FILENAME_TEMP") ]] ; then 
-    COMMAND_BOOK="-V book"
-fi
-
-[[ -n ${DIVISION_LEVEL} ]] && COMMAND_TOP_LEVEL_DIVISION="--top-level-division=${DIVISION_LEVEL}"
-
+# qr code for youtube videos
 [[ ${PANDOC_YOUTUBE_VIDEO_LINKS} = true ]] && COMMAND_YOUTUBE_FILTER="--filter pandoc-youtube-video-links.py"
 
-OUTPUT_DIR="./"
+if [[ $OUTPUT_FORMAT = "pdf" ]]; then
+    ## Listings
+    [[ ${USE_LISTINGS} = true ]] && COMMAND_LISTINGS="--listings -M listings=true"
 
-if [[ $2 ]]; then
-  OUTPUT_DIR="$BASE_DIR/$2/build/pdf/$WORKING_DIR"
-  mkdir -p "$OUTPUT_DIR"
+    ## Better solution would be to convert to tex and check
+    if [[ ! -z $(grep "\chapter{.*}\|\part{.*}" "$FILENAME_TEMP") ]] ; then 
+        COMMAND_BOOK="-V book"
+    fi
+
+    ## change division level for content files if set
+    [[ -n ${DIVISION_LEVEL} ]] && COMMAND_TOP_LEVEL_DIVISION="--top-level-division=${DIVISION_LEVEL}"
+
+    TEMPLATE="--template=${PANDOC_PDF_TEMPLATE}"
 fi
 
-echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.pdf" -s \
+OUTPUT_DIR="$BASE_DIR/$2/build/${OUTPUT_FORMAT}/$WORKING_DIR"
+mkdir -p "$OUTPUT_DIR"
+if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
+    echo "copy files"
+    find . -type f -not -name "*${MARKDOWN_EXTENSION}" -exec cp '{}' $OUTPUT_DIR'/{}' ';'
+fi
+
+if [[ $OUTPUT_FORMAT = "html" ]] ; then
+    PANDOC_COMMAND="${PANDOC_COMMAND} -t html5"
+fi
+
+if [[ $OUTPUT_FORMAT = "pdf" ]] ; then
+    PANDOC_COMMAND="${PANDOC_COMMAND} --pdf-engine=xelatex -s"
+fi
+
+## define pandoc command
+echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}" \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
     ${COMMAND_CITEPROC} \
     ${COMMAND_YOUTUBE_FILTER} \
-    --template=${PANDOC_PDF_TEMPLATE} \
+    ${TEMPLATE} \
     ${COMMAND_BOOK} \
     ${COMMAND_LISTINGS} \
     ${COMMAND_TOP_LEVEL_DIVISION} \
@@ -136,10 +171,13 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.pdf" -s \
     -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
 
+cat start.sh
 bash start.sh
 
+# cleanup temporary files
 rm $FILENAME_TEMP
 rm start.sh
 [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
+
