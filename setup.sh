@@ -6,10 +6,12 @@ printf "%100s\n" |tr " " "="
 printf "%-40s%s\n" "Source file:" ${SOURCE_FILE} 
 printf "%100s\n" |tr " " "="
 
+cd $(dirname ${SOURCE_FILE})
 # Set directory variables
-BASE_DIR="$1" # working directory of the docker image (/usr/share/blog)
-BIN_DIR=$(dirname "$0") # relative path to the scripts directory (./bin)
+BASE_DIR="$(git rev-parse --show-toplevel)" # working directory of the docker image (/usr/share/blog)
+BIN_DIR=${BASE_DIR}/bin # relative path to the scripts directory (./bin)
 WORKING_DIR=$(dirname "${SOURCE_FILE}") # relative direcrory of the current source file
+cd -
 
 [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "[BASE_DIR]:" ${BASE_DIR}
 [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "[BIN_DIR]:" ${BIN_DIR}
