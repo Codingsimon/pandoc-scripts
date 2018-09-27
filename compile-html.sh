@@ -10,9 +10,7 @@ source venv/bin/activate
 # Hier können Python Pakete eingetragen werden die für Pandoc Filter benötigt werden
 pip install -r .pandoc/requirements.txt
 
-find -type f -name "*.sh" -exec chmod 755 {} \;
-
-find -type f -name "TEMP*" -exec rm {} \;
+bin/clean-all.sh
 
 source bin/base.env
 source .env
