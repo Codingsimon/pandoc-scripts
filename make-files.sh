@@ -141,7 +141,7 @@ if [[ $OUTPUT_FORMAT = "pdf" ]]; then
     fi
 
     ## change division level for content files if set
-    [[ -n ${DIVISION_LEVEL} ]] && COMMAND_TOP_LEVEL_DIVISION="--top-level-division=${DIVISION_LEVEL}"
+    [[ -n ${DIVISION_LEVEL} && ${BOOK} = true ]] && COMMAND_TOP_LEVEL_DIVISION="--top-level-division=${DIVISION_LEVEL}"
 
     TEMPLATE="--template=${PANDOC_PDF_TEMPLATE}"
 fi
