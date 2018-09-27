@@ -19,15 +19,15 @@ source .env
 
 # Erstellen von Büchern (siehe README.md)
 if [[ ${CREATE_AUTOMATIC_BOOKS} = true ]] ; then
-find . -maxdepth ${SEARCH_DEPTH} -name 'book*.sh' -print0 | xargs -0 -I{} -n1 -P${THREADS} /bin/bash -c './bin/makepdf.sh --html --source "{}" --outdir '$1
+find . -maxdepth ${SEARCH_DEPTH} -name 'book*.sh' -print0 | xargs -0 -I{} -n1 -P${THREADS} /bin/bash -c './bin/make-files.sh --html --source "{}" --outdir '$1
 fi
 
 if [[ ${CREATE_MANUAL_BOOKS} = true ]] ; then
-find . -maxdepth ${SEARCH_DEPTH} -name 'book*.txt' -print0 | xargs -0 -I{} -n1 -P12 /bin/bash -c './bin/makepdf.sh --html --source "{}" --outdir '$1
+find . -maxdepth ${SEARCH_DEPTH} -name 'book*.txt' -print0 | xargs -0 -I{} -n1 -P12 /bin/bash -c './bin/make-files.sh --html --source "{}" --outdir '$1
 fi
 
 # Erstellen von PDFs pro Ordner
 if [[ ${CREATE_SINGLE_PAGES} = true ]] ; then
-find . -maxdepth ${SEARCH_DEPTH} -type f -name "${MARKDOWN_FILENAME}${MARKDOWN_EXTENSION}" -print0 | xargs -0 -I{} -n1 -P12 /bin/bash -c './bin/makepdf.sh --html --source "{}" --outdir '$1
+find . -maxdepth ${SEARCH_DEPTH} -type f -name "${MARKDOWN_FILENAME}${MARKDOWN_EXTENSION}" -print0 | xargs -0 -I{} -n1 -P12 /bin/bash -c './bin/make-files.sh --html --source "{}" --outdir '$1
 fi
 
