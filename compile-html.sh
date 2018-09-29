@@ -13,7 +13,10 @@ pip install -r .pandoc/requirements.txt
 bin/clean-all.sh
 
 source bin/base.env
+
+if [[ -e ".env" ]] ; then
 source .env
+fi
 
 # Erstellen von Büchern (siehe README.md)
 if [[ ${CREATE_AUTOMATIC_BOOKS} = true ]] ; then
