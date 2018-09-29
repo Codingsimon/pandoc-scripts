@@ -150,7 +150,7 @@ OUTPUT_DIR="$BASE_DIR/$2/build/${OUTPUT_FORMAT}/$WORKING_DIR"
 mkdir -p "$OUTPUT_DIR"
 if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
     echo "copy files"
-    find . -type f -not -name "*${MARKDOWN_EXTENSION}" -exec cp '{}' $OUTPUT_DIR'/{}' ';'
+    find . -type f -not -name "*${MARKDOWN_EXTENSION}" -not -name "*.md" -not -name "*.yml" -not -path '*/\.*' -not -path '*venv*' -not -path '*build*' -not -path '*bin*' -exec cp '{}' $OUTPUT_DIR'/{}' ';'
 fi
 
 if [[ $OUTPUT_FORMAT = "html" ]] ; then
