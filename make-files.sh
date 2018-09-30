@@ -131,6 +131,8 @@ fi
 # qr code for youtube videos
 [[ ${PANDOC_YOUTUBE_VIDEO_LINKS} = true ]] && COMMAND_YOUTUBE_FILTER="--filter pandoc-youtube-video-links.py"
 
+[[ ${PANDOC_AWESOME_BOX} = true ]] && COMMAND_AWESOME_FILTER="--filter pandoc_alert_boxes.py"
+
 if [[ $OUTPUT_FORMAT = "pdf" ]]; then
     ## Listings
     [[ ${USE_LISTINGS} = true ]] && COMMAND_LISTINGS="--listings -M listings=true"
@@ -167,6 +169,7 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}
     ${COMMAND_CROSSREF} \
     ${COMMAND_CITEPROC} \
     ${COMMAND_YOUTUBE_FILTER} \
+    ${COMMAND_AWESOME_FILTER} \
     ${TEMPLATE} \
     ${COMMAND_BOOK} \
     ${COMMAND_LISTINGS} \
