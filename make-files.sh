@@ -54,17 +54,27 @@ source $(dirname "$0")/setup.sh $PWD $SF
 # Change to the file directory
 cd "$WORKING_DIR"
 
+# exit if file is found in .pandoc or bin
+if [[ $WORKING_DIR =~ ".pandoc" || $WORKING_DIR =~ "bin" ]] ; then
+    echo "found pandoc in .pandoc"
+    exit;
+fi
+
 # Create temporary markdown file
 if [[ ${BOOK} = true ]] ; then
     if [[ ${BOOK_FILETYPE} = BASH ]] ; then
         # file index is created by a bash file
         export MARKDOWN_FILENAME
         export MARKDOWN_EXTENSION
-        ./${BASENAME}.sh >> $FILENAME_TEMP.index
+        ./${BASENAME}.sh > ${FILENAME_TEMP}.index
     else
         # file index is manually defined in a text file
-        cat "${BASENAME}.txt" > $FILENAME_TEMP.index
+        cat "${BASENAME}.txt" > ${FILENAME_TEMP}.index
     fi
+
+    # remove README.md and all files found in .pandoc or bin
+    cat ${FILENAME_TEMP}.index | grep -v "README.md" | grep -v "\/\.pandoc\/" | grep -v "\/\bin\/" > ${FILENAME_TEMP}_FIX.index
+    mv ${FILENAME_TEMP}_FIX.index ${FILENAME_TEMP}.index
 
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
 
