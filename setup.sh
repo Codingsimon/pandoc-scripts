@@ -48,24 +48,24 @@ fi
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 
 # Read project environment variables
-if [[ -e ${BASE_DIR}/.env ]]
+if [[ -e ${BASE_DIR}/settings.env ]]
 then
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read project enviroment file:" ${BASE_DIR}/.env
-    source ${BASE_DIR}/.env
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read project enviroment file:" ${BASE_DIR}/settings.env
+    source ${BASE_DIR}/settings.env
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 else
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No base environment file:" ${BASE_DIR}/.env
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No base environment file:" ${BASE_DIR}/settings.env
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
 
 # Read working directory environment variables
-if [[ -e ${WORKING_DIR}/.env ]]
+if [[ -e ${WORKING_DIR}/settings.env ]]
 then
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read working directory enviroment file:" ${WORKING_DIR}/.env
-    source ${WORKING_DIR}/.env
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read working directory enviroment file:" ${WORKING_DIR}/settings.env
+    source ${WORKING_DIR}/settings.env
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 else
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No working dir environment file:" ${WORKING_DIR}/.env
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No working dir environment file:" ${WORKING_DIR}/settings.env
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
 

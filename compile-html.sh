@@ -15,7 +15,7 @@ bin/clean-all.sh
 source bin/base.env
 
 if [[ -e ".env" ]] ; then
-source .env
+source settings.env
 fi
 
 # Erstellen von Büchern (siehe README.md)
