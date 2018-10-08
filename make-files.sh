@@ -170,7 +170,7 @@ if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
 fi
 
 if [[ $OUTPUT_FORMAT = "html" ]] ; then
-    PANDOC_COMMAND="${PANDOC_COMMAND} -t html5"
+    PANDOC_COMMAND="${PANDOC_COMMAND} -t html5 --filter demoteHeaders.hs"
 fi
 
 if [[ $OUTPUT_FORMAT = "pdf" ]] ; then
