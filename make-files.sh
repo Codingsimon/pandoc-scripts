@@ -197,7 +197,11 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}
 bash start.sh
 
 # cleanup temporary files
-rm $FILENAME_TEMP
+if [[ $OUTPUT_FORMAT = "html" && ${BOOK} = false ]] ; then
+    mv $FILENAME_TEMP ${BASENAME}${MARKDOWN_EXTENSION}
+else
+    rm $FILENAME_TEMP
+fi
 rm start.sh
 [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
