@@ -170,7 +170,7 @@ if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
 fi
 
 if [[ $OUTPUT_FORMAT = "html" ]] ; then
-    PANDOC_COMMAND="${PANDOC_COMMAND} -t html5 --filter demoteHeaders.hs"
+    PANDOC_COMMAND="${PANDOC_COMMAND} -t html5"
 fi
 
 if [[ $OUTPUT_FORMAT = "pdf" ]] ; then
@@ -197,11 +197,9 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}
 bash start.sh
 
 # cleanup temporary files
-if [[ $OUTPUT_FORMAT = "html" && ${BOOK} = false ]] ; then
-    mv $FILENAME_TEMP ${BASENAME}${MARKDOWN_EXTENSION}
-else
-    rm $FILENAME_TEMP
-fi
+
+rm $FILENAME_TEMP
+
 rm start.sh
 [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
