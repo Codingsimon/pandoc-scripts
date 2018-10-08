@@ -14,7 +14,7 @@ bin/clean-all.sh
 
 source bin/base.env
 
-if [[ -e ".env" ]] ; then
+if [[ -e "settings.env" ]] ; then
 source settings.env
 fi
 
