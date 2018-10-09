@@ -34,6 +34,8 @@ while [[ $# -gt 0 ]] ; do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+OUTPUT_DIR="."
+
 if [[ -z $OUTPUT_FORMAT ]] ; then 
     echo Es wurde kein Ausgabeformat übergeben
 fi
