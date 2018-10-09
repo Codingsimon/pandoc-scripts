@@ -184,6 +184,8 @@ if [[ $OUTPUT_FORMAT = "pdf" ]] ; then
     PANDOC_COMMAND="${PANDOC_COMMAND} --pdf-engine=xelatex -s"
 fi
 
+echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
+
 ## define pandoc command
 echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}" \
     ${FILTER_DEMOTE_HEADER} \
