@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT_DIR="./"
+OUTPUT_DIR="."
 
 POSITIONAL=()
 
