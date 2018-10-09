@@ -160,11 +160,16 @@ if [[ $OUTPUT_FORMAT = "pdf" ]]; then
     TEMPLATE="--template=${PANDOC_PDF_TEMPLATE}"
 fi
 
+echo OUTPUT_DIR $OUTPUT_DIR OUTPUT_FORMAT $OUTPUT_FORMAT START
+
 if [[ $OUTPUT_DIR = "." && $OUTPUT_FORMAT = "pdf" ]] ; then
     OUTPUT_DIR="$BASE_DIR/$WORKING_DIR"
 else
     OUTPUT_DIR="$BASE_DIR/build/${OUTPUT_FORMAT}/$WORKING_DIR"
 fi
+
+echo OUTPUT_DIR $OUTPUT_DIR OUTPUT_FORMAT $OUTPUT_FORMAT END
+
 mkdir -p "$OUTPUT_DIR"
 if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
     echo "copy files"
