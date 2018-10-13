@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ORIGIN_DIR=$PWD
+
 # Set source file and basename
 SOURCE_FILE="$2" # relative file path
 printf "%100s\n" |tr " " "="

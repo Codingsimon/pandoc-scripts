@@ -2,12 +2,14 @@
 
 POSITIONAL=()
 
+COMPILE_FOR_HUGO=false
+
 while [[ $# -gt 0 ]] ; do
     key="$1"
 
     case $key in
         --hugo)
-            EXPORT_DIR="./"
+            COMPILE_FOR_HUGO=true
             shift
             ;;
         *)    # unknown option
@@ -18,4 +20,4 @@ while [[ $# -gt 0 ]] ; do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-docker run --rm -v $PWD:/usr/share/blog meroff/hugo-with-pandoc:latest ./bin/compile-pdf.sh ${EXPORT_DIR}
+docker run --rm -v $PWD:/usr/share/blog meroff/hugo-with-pandoc:latest ./bin/compile-pdf.sh --hugo ${COMPILE_FOR_HUGO}

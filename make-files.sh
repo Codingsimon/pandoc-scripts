@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT_DIR="."
+OUTPUT_DIR="build"
 
 POSITIONAL=()
 
@@ -13,8 +13,10 @@ while [[ $# -gt 0 ]] ; do
             shift # past argument
             shift # past value
             ;;
-        -o|--outdir)
-            OUTPUT_DIR="$2"
+        --hugo)
+            if [[ $2 = true ]] ; then 
+                OUTPUT_DIR="."
+            fi
             shift
             shift
             ;;
@@ -158,15 +160,11 @@ if [[ $OUTPUT_FORMAT = "pdf" ]]; then
     TEMPLATE="--template=${PANDOC_PDF_TEMPLATE}"
 fi
 
-echo BASE_DIR $BASE_DIR WORKING_DIR $WORKING_DIR OUTPUT_DIR $OUTPUT_DIR OUTPUT_FORMAT $OUTPUT_FORMAT START
-
 if [[ $OUTPUT_DIR = "." && $OUTPUT_FORMAT = "pdf" ]] ; then
-    OUTPUT_DIR="$BASE_DIR/$WORKING_DIR"
+    OUTPUT_DIR="$ORIGIN_DIR/$WORKING_DIR"
 else
-    OUTPUT_DIR="$BASE_DIR/build/${OUTPUT_FORMAT}/$WORKING_DIR"
+    OUTPUT_DIR="$ORIGIN_DIR/${OUTPUT_DIR}/${OUTPUT_FORMAT}/$WORKING_DIR"
 fi
-
-echo BASE_DIR $BASE_DIR WORKING_DIR $WORKING_DIR OUTPUT_DIR $OUTPUT_DIR OUTPUT_FORMAT $OUTPUT_FORMAT END
 
 mkdir -p "$OUTPUT_DIR"
 if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
