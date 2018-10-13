@@ -71,6 +71,16 @@ else
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
 
+# Override with CI Parameters
+
+if [[ -n ${GENERATE_QR_CODES} ]] ; then
+    PANDOC_YOUTUBE_VIDEO_LINKS=${GENERATE_QR_CODES}
+fi
+
+if [[ ${GENERATE_QR_CODES} = true && ! ${CI_COMMIT_REF_NAME} = master ]] ; then
+    PANDOC_YOUTUBE_VIDEO_LINKS=${GENERATE_QR_CODES_FOR_BRANCHES}
+fi
+
 # Temporary Filename
 FILENAME_TEMP=TEMP_${BASENAME}${MARKDOWN_EXTENSION}
 [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Temporary file:" ${FILENAME_TEMP}
