@@ -208,5 +208,5 @@ rm $FILENAME_TEMP
 rm start.sh
 [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
-[[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "!"
+printf "%100s\n" |tr " " "-"
 
