@@ -207,3 +207,5 @@ rm $FILENAME_TEMP
 
 rm start.sh
 [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
+
+echo Finish $BASENAME
