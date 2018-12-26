@@ -53,6 +53,10 @@ sleep_one_second
 # Setup environment variables
 source $(dirname "$0")/setup.sh $PWD $SF 
 
+if [[ ${BASENAME} = "README" ]] ; then
+	exit
+fi
+
 # Change to the file directory
 cd "$WORKING_DIR"
 
