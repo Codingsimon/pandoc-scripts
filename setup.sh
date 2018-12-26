@@ -8,7 +8,8 @@ printf "%100s\n" |tr " " "="
 printf "%-40s%s\n" "Source file:" ${SOURCE_FILE} 
 printf "%100s\n" |tr " " "="
 
-cd $(dirname ${SOURCE_FILE})
+CHG_DIR=$(dirname "${SOURCE_FILE}")
+cd "${CHG_DIR}"
 # Set directory variables
 BASE_DIR="$(git rev-parse --show-toplevel)" # working directory of the docker image (/usr/share/blog)
 BIN_DIR=${BASE_DIR}/bin # relative path to the scripts directory (./bin)
@@ -31,6 +32,29 @@ else
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
 
+
+# Read project environment variables
+if [[ "-e ${BASE_DIR}/settings.env" ]]
+then
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read project enviroment file:" ${BASE_DIR}/settings.env
+    source "${BASE_DIR}/settings.env"
+    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
+else
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No base environment file:" ${BASE_DIR}/settings.env
+    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
+fi
+
+# Read working directory environment variables
+if [[ -e "${WORKING_DIR}/settings.env" ]]
+then
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read working directory enviroment file:" ${WORKING_DIR}/settings.env
+    source "${WORKING_DIR}/settings.env"
+    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
+else
+    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No working dir environment file:" ${WORKING_DIR}/settings.env
+    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
+fi
+
 # Check the file typ of the source file
 if [[ $2 =~ .sh || $2 =~ .txt ]] ; then
     if [[ $2 =~ .sh ]] ; then
@@ -48,28 +72,6 @@ fi
 
 [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Basename:" ${BASENAME}
 [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
-
-# Read project environment variables
-if [[ -e ${BASE_DIR}/settings.env ]]
-then
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read project enviroment file:" ${BASE_DIR}/settings.env
-    source ${BASE_DIR}/settings.env
-    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
-else
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No base environment file:" ${BASE_DIR}/settings.env
-    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
-fi
-
-# Read working directory environment variables
-if [[ -e ${WORKING_DIR}/settings.env ]]
-then
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Read working directory enviroment file:" ${WORKING_DIR}/settings.env
-    source ${WORKING_DIR}/settings.env
-    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
-else
-    [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No working dir environment file:" ${WORKING_DIR}/settings.env
-    [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
-fi
 
 # Override with CI Parameters
 

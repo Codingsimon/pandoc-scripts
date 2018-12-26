@@ -51,7 +51,11 @@ fi
 sleep_one_second
 
 # Setup environment variables
-source $(dirname "$0")/setup.sh $PWD $SF 
+source $(dirname "$0")/setup.sh "$PWD" "$SF"
+
+if [[ ${BASENAME} = "README" ]] ; then
+	exit
+fi
 
 # Change to the file directory
 cd "$WORKING_DIR"
@@ -89,12 +93,12 @@ if [[ ${BOOK} = true ]] ; then
             DIR=$(dirname "${p}")
             # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
-                echo "#" `sed ${SED_YAML_HEADER} $p | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
+                echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
                 print_empty_lines ${FILENAME_TEMP}
             fi
             # add the source file content without frontmatter
-            LINES=$(sed ${SED_YAML_HEADER} ${p} | wc -l)
-            awk "NR > $LINES" < $p | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
+            LINES=$(sed ${SED_YAML_HEADER} "${p}" | wc -l)
+            awk "NR > $LINES" < "$p" | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
             print_empty_lines ${FILENAME_TEMP}
         fi
     done < $FILENAME_TEMP.index  
@@ -183,7 +187,7 @@ fi
 echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
 
 ## define pandoc command
-echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}" \
+echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"\" \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
     ${COMMAND_CITEPROC} \
