@@ -93,7 +93,7 @@ if [[ ${BOOK} = true ]] ; then
             DIR=$(dirname "${p}")
             # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
-                echo "#" `sed ${SED_YAML_HEADER} $p | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
+                echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
                 print_empty_lines ${FILENAME_TEMP}
             fi
             # add the source file content without frontmatter
