@@ -31,23 +31,6 @@ else
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
 
-# Check the file typ of the source file
-if [[ $2 =~ .sh || $2 =~ .txt ]] ; then
-    if [[ $2 =~ .sh ]] ; then
-        BASENAME=$(basename "${SOURCE_FILE}" .sh)
-        BOOK_FILETYPE=BASH
-    else
-        BASENAME=$(basename "${SOURCE_FILE}" .txt)
-        BOOK_FILETYPE=TEXT
-    fi
-    BOOK=true
-else
-    BASENAME=$(basename "${SOURCE_FILE}" ${MARKDOWN_EXTENSION})
-    BOOK=false
-fi
-
-[[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Basename:" ${BASENAME}
-[[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 
 # Read project environment variables
 if [[ -e ${BASE_DIR}/settings.env ]]
@@ -70,6 +53,24 @@ else
     [[ ${DEBUG} = true ]] && printf "%-40s%s\n" "No working dir environment file:" ${WORKING_DIR}/settings.env
     [[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 fi
+
+# Check the file typ of the source file
+if [[ $2 =~ .sh || $2 =~ .txt ]] ; then
+    if [[ $2 =~ .sh ]] ; then
+        BASENAME=$(basename "${SOURCE_FILE}" .sh)
+        BOOK_FILETYPE=BASH
+    else
+        BASENAME=$(basename "${SOURCE_FILE}" .txt)
+        BOOK_FILETYPE=TEXT
+    fi
+    BOOK=true
+else
+    BASENAME=$(basename "${SOURCE_FILE}" ${MARKDOWN_EXTENSION})
+    BOOK=false
+fi
+
+[[ ${DEBUG} = true ]] && printf "%-40s%s\n" "Basename:" ${BASENAME}
+[[ ${DEBUG} = true ]] && printf "%100s\n" |tr " " "="
 
 # Override with CI Parameters
 
