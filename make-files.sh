@@ -51,7 +51,7 @@ fi
 sleep_one_second
 
 # Setup environment variables
-source $(dirname "$0")/setup.sh $PWD $SF 
+source $(dirname "$0")/setup.sh "$PWD" "$SF"
 
 if [[ ${BASENAME} = "README" ]] ; then
 	exit
@@ -187,7 +187,7 @@ fi
 echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
 
 ## define pandoc command
-echo ${PANDOC_COMMAND} $FILENAME_TEMP -o "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}" \
+echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"\" \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
     ${COMMAND_CITEPROC} \
