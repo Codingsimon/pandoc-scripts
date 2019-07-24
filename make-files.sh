@@ -166,6 +166,8 @@ fi
 
 if [[ $OUTPUT_DIR = "." && $OUTPUT_FORMAT = "pdf" ]] ; then
     OUTPUT_DIR="$ORIGIN_DIR/$WORKING_DIR"
+    BASENAME=$(basename $WORKING_DIR)  
+    echo Basename is now $BASENAME
 else
     OUTPUT_DIR="$ORIGIN_DIR/${OUTPUT_DIR}/${OUTPUT_FORMAT}/$WORKING_DIR"
 fi
