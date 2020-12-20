@@ -33,7 +33,7 @@ source venv/bin/activate
 # Installation der Requirements
 # Hier können Python Pakete eingetragen werden die für Pandoc Filter benötigt werden
 
-pip3 install -r .pandoc/requirements.txt --no-binary :all:
+pip3 install -r .pandoc/requirements.txt
 
 bin/clean-all.sh
 
