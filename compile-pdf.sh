@@ -23,7 +23,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # Einrichten einer Python Umgebung innerhalb des containers
-apt-get -qq update && DEBIAN_FRONTEND=noninteractive && apt-get -qq install -y python3-venv python3-wheel
+apt-get -qq update && DEBIAN_FRONTEND=noninteractive && apt-get -qq install -y python3-venv python3-dev python3-wheel
 python3 -m venv venv
 
 # Aktivieren der Python Umgebung
