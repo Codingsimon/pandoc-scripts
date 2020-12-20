@@ -23,7 +23,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # Einrichten einer Python Umgebung innerhalb des containers
-apt-get install python3-venv
+apt-get install python3.9-venv
 python3 -m venv venv
 
 # Aktivieren der Python Umgebung
