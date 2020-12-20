@@ -194,6 +194,8 @@ echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
 
 echo "paramStart"
 ## define pandoc command
+echo ${PANDOC_COMMAND}
+
 echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"\" \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
@@ -210,7 +212,9 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMA
     -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
     
+ 
  echo "paramEnd"
+ PWD
  
  
 
