@@ -24,7 +24,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # Einrichten einer Python Umgebung innerhalb des containers
 apt-get -qq update && DEBIAN_FRONTEND=noninteractive && apt-get -qq install -y python3-venv python3-dev python3-wheel
-pip install wheel
+
 python3 -m venv venv
 
 # Aktivieren der Python Umgebung
@@ -32,6 +32,7 @@ source venv/bin/activate
 
 # Installation der Requirements
 # Hier können Python Pakete eingetragen werden die für Pandoc Filter benötigt werden
+pip install wheel
 pip install -r .pandoc/requirements.txt
 
 bin/clean-all.sh
