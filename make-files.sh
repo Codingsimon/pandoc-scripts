@@ -214,7 +214,7 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMA
     
  
  echo "paramEnd"
- PWD
+ pwd
  
  
 
