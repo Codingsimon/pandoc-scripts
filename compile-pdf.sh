@@ -1,26 +1,6 @@
 #!/bin/bash
 
-POSITIONAL=()
 
-
-
-while [[ $# -gt 0 ]] ; do
-    key="$1"
-
-    case $key in
-        --hugo)
-            COMPILE_FOR_HUGO=$2
-            shift
-            shift
-            ;;
-        *)    # unknown option
-            POSITIONAL+=("$1") # save it in an array for later
-            shift # past argument
-            ;;
-    esac
-done
-
-set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # Einrichten einer Python Umgebung innerhalb des containers
 
