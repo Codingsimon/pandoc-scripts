@@ -215,8 +215,7 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMA
  
  echo "paramEnd"
  pwd
- 
- 
+ cat start.sh
 
 bash start.sh
 
