@@ -13,17 +13,6 @@ while [[ $# -gt 0 ]] ; do
             shift # past argument
             shift # past value
             ;;
-        --hugo)
-            if [[ $2 = true ]] ; then 
-                OUTPUT_DIR="."
-            fi
-            shift
-            shift
-            ;;
-        --html)
-            OUTPUT_FORMAT="html"
-            shift
-            ;;
         --pdf)
             OUTPUT_FORMAT="pdf"
             shift
@@ -34,6 +23,7 @@ while [[ $# -gt 0 ]] ; do
             ;;
     esac
 done
+
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 if [[ -z $OUTPUT_FORMAT ]] ; then 
@@ -174,14 +164,6 @@ else
 fi
 
 mkdir -p "$OUTPUT_DIR"
-if [[ ! $BOOK = true && $OUTPUT_FORMAT = "html" ]] ; then
-    echo "copy files"
-    find . -type f -not -name "*${MARKDOWN_EXTENSION}" -not -name "*.md" -not -name "*.yml" -not -path '*/\.*' -not -path '*venv*' -not -path '*build*' -not -path '*bin*' -exec cp '{}' $OUTPUT_DIR'/{}' ';'
-fi
-
-if [[ $OUTPUT_FORMAT = "html" ]] ; then
-    PANDOC_COMMAND="${PANDOC_COMMAND} -t html5"
-fi
 
 if [[ $OUTPUT_FORMAT = "pdf" ]] ; then
     PANDOC_COMMAND="${PANDOC_COMMAND} --pdf-engine=xelatex -s"
@@ -189,12 +171,8 @@ fi
 
 echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
 
-
-
-
-echo "paramStart"
 ## define pandoc command
-echo ${PANDOC_COMMAND}
+
 
 echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"\" \
     ${FILTER_DEMOTE_HEADER} \
@@ -212,11 +190,6 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMA
     -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
     
- 
- echo "paramEnd"
- pwd
- cat start.sh
-
 bash start.sh
 
 # cleanup temporary files
