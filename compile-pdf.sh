@@ -24,7 +24,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # Einrichten einer Python Umgebung innerhalb des containers
 
-python3.9 -m venv venv
+python3 -m venv venv
 
 # Aktivieren der Python Umgebung
 source venv/bin/activate
