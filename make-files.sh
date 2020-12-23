@@ -14,7 +14,7 @@ while [[ $# -gt 0 ]] ; do
             shift # past value
             ;;
         --pdf)
-            OUTPUT_FORMAT="pdf"
+            OUTPUT_FORMAT="docx"
             shift
             ;;
         *)    # unknown option
