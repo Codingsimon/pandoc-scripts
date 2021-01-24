@@ -37,3 +37,4 @@ if [[ ${CREATE_SINGLE_PAGES} = true ]] ; then
     find . -maxdepth ${SEARCH_DEPTH} -type f -name "*${MARKDOWN_EXTENSION}" -not -name "_index${MARKDOWN_EXTENSION}" -print0 | xargs -0 -I{} -n1 -P${THREADS} /bin/bash -c './bin/make-files.sh --pdf --source "{}" '
 fi
 
+ 
