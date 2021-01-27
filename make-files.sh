@@ -63,10 +63,11 @@ if [[ ${BOOK} = true ]] ; then
     cat ${FILENAME_TEMP}.index | grep -v "README.md" | grep -v "\/\.pandoc\/" | grep -v "\/\bin\/" > ${FILENAME_TEMP}_FIX.index
     mv ${FILENAME_TEMP}_FIX.index ${FILENAME_TEMP}.index
 
-echo catting tempindex
-cat .TEMP_book.index
-cat .TEMP_book_FIX.index
-ls ./builds
+echo normalFileName_TEMP
+cat $FILENAME_TEMP.index
+
+echo fileName_Fix
+cat ${FILENAME_TEMP}_FIX.index
 
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
 
