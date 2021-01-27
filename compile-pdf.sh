@@ -23,6 +23,7 @@ fi
 # Erstellen von Büchern (siehe README.md)
 if [[ ${CREATE_AUTOMATIC_BOOKS} = true ]] ; then
     find . -maxdepth ${SEARCH_DEPTH} -name 'book*.sh' -print0 | xargs -0 -I{} -n1 -P${THREADS} /bin/bash -c './bin/make-files.sh --pdf --source "{}" '
+      find . -maxdepth ${SEARCH_DEPTH} -name 'book*.sh' -print0 | xargs -0 -I{} -n1 -P${THREADS} /bin/bash -c 'echo --pdf --source "{}" '  
 fi
 
 if [[ ${CREATE_MANUAL_BOOKS} = true ]] ; then
