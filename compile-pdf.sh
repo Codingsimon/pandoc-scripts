@@ -18,6 +18,8 @@ pip install -r .pandoc/requirements.txt --no-binary :all:
 
 source bin/base.env
 
+echo $PANDOC_COMMAND
+
 if [[ -e "settings.env" ]] ; then
 source settings.env
 fi
