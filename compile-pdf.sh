@@ -1,9 +1,6 @@
 #!/bin/bash
 
-
-
 # Einrichten einer Python Umgebung innerhalb des containers
-
 
 python3 -m venv venv
 
@@ -14,8 +11,6 @@ source venv/bin/activate
 # Hier können Python Pakete eingetragen werden die für Pandoc Filter benötigt werden
 
 pip install -r .pandoc/requirements.txt --no-binary :all:
-
-bin/clean-all.sh
 
 source bin/base.env
 
