@@ -2,6 +2,9 @@
 
 ORIGIN_DIR=$PWD
 
+echo TEMPLATECHECK
+echo $PANDOC_PDF_TEMPLATE
+
 # Set source file and basename
 SOURCE_FILE="$2" # relative file path
 printf "%100s\n" |tr " " "="
