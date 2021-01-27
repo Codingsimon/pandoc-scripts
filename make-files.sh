@@ -22,18 +22,8 @@ echo $key
             OUTPUT_FORMAT="pdf"
             shift
             ;;
-        *)    # unknown option
-            POSITIONAL+=("$1") # save it in an array for later
-            shift # past argument
-            ;;
     esac
 done
-
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
-if [[ -z $OUTPUT_FORMAT ]] ; then 
-    echo Es wurde kein Ausgabeformat übergeben
-fi
 
 ## The following script is divided into two parts. 
 ## - create a PDF from multiple markdown files
