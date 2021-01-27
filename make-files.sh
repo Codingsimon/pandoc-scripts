@@ -4,8 +4,13 @@ OUTPUT_DIR="build"
 
 POSITIONAL=()
 
+echo "POSITIONAL"
+echo POSITIONAL
+
 while [[ $# -gt 0 ]] ; do
     key="$1"
+echo "caseBlock"
+echo key
 
     case $key in
         -s|--source)
