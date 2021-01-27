@@ -1,5 +1,6 @@
 #!/bin/bash
 
+pwd
 # Einrichten einer Python Umgebung innerhalb des containers
 
 python3 -m venv venv
