@@ -28,6 +28,8 @@ fi
 
 if [[ ${CREATE_MANUAL_BOOKS} = true ]] ; then
     find . -maxdepth ${SEARCH_DEPTH} -name 'book*.txt' -print0 | xargs -0 -I{} -n1 -P${THREADS} /bin/bash -c './bin/make-files.sh --pdf --source "{}" '
+        find . -maxdepth ${SEARCH_DEPTH} -name 'book*.txt' -print0 | xargs -0 -I{} -n1 -P${THREADS} echo './bin/make-files.sh --pdf --source "{}" '
+
 fi
 
 # Erstellen von PDFs pro Ordner
