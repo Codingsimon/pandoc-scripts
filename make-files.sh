@@ -52,8 +52,7 @@ if [[ ${BOOK} = true ]] ; then
         export MARKDOWN_EXTENSION
         ./${BASENAME}.sh > ${FILENAME_TEMP}.index
 	echo aaaaaaaaaaaaaaaaaaaaaa
-	cd /
-	cat ./builds/TEMP_book.index
+	cat ./TEMP_book.index
 	echo aaaaaaaaaaaaaaaaaaaaaa
     else
         # file index is manually defined in a text file
@@ -65,8 +64,8 @@ if [[ ${BOOK} = true ]] ; then
     mv ${FILENAME_TEMP}_FIX.index ${FILENAME_TEMP}.index
 
 echo catting tempindex
-cat ./builds/TEMP_book.index
-cat ./builds/TEMP_book_FIX.index
+cat .TEMP_book.index
+cat .TEMP_book_FIX.index
 ls ./builds
 
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
