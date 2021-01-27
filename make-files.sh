@@ -52,6 +52,7 @@ if [[ ${BOOK} = true ]] ; then
         export MARKDOWN_EXTENSION
         ./${BASENAME}.sh > ${FILENAME_TEMP}.index
 	echo aaaaaaaaaaaaaaaaaaaaaa
+	cd /
 	cat ./builds/TEMP_book.index
 	echo aaaaaaaaaaaaaaaaaaaaaa
     else
