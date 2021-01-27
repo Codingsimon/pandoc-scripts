@@ -2,8 +2,6 @@
 
 pwd
 
-TEST="zeas"
-echo $TEST
 # Einrichten einer Python Umgebung innerhalb des containers
 
 python3 -m venv venv
