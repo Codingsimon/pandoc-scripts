@@ -69,6 +69,9 @@ cat $FILENAME_TEMP.index
 echo fileName_Fix
 cat ${FILENAME_TEMP}_FIX.index
 
+echo qqqqqqqqqq
+ls
+
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
 
     # Combine files
