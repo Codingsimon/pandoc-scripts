@@ -64,6 +64,7 @@ if [[ ${BOOK} = true ]] ; then
     cat ${FILENAME_TEMP}.index | grep -v "README.md" | grep -v "\/\.pandoc\/" | grep -v "\/\bin\/" > ${FILENAME_TEMP}_FIX.index
     mv ${FILENAME_TEMP}_FIX.index ${FILENAME_TEMP}.index
 
+echo catting tempindex
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
 
     # Combine files
