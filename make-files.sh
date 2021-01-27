@@ -194,9 +194,9 @@ bash start.sh
 
 # cleanup temporary files
 
-rm $FILENAME_TEMP
+#aasdf rm $FILENAME_TEMP
 
-rm start.sh
-[[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
+#asdf rm start.sh
+#asdf [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
 
 echo Finish $BASENAME
