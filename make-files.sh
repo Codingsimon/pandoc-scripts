@@ -65,6 +65,10 @@ if [[ ${BOOK} = true ]] ; then
     mv ${FILENAME_TEMP}_FIX.index ${FILENAME_TEMP}.index
 
 echo catting tempindex
+cat ./builds/TEMP_book.index
+cat ./builds/TEMP_book_FIX.index
+ls ./builds
+
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
 
     # Combine files
