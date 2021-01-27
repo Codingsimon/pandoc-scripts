@@ -51,7 +51,7 @@ if [[ ${BOOK} = true ]] ; then
         export MARKDOWN_FILENAME
         export MARKDOWN_EXTENSION
         ./${BASENAME}.sh > ${FILENAME_TEMP}.index
-	echo ###########################
+	echo aaaaaaaaaaaaaaaaaaaaaa
 	cat ${FILENAME_TEMP}.index
     else
         # file index is manually defined in a text file
