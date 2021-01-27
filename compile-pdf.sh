@@ -2,7 +2,7 @@
 
 pwd
 
-TEST = "zeas"
+TEST="zeas"
 echo $TEST
 # Einrichten einer Python Umgebung innerhalb des containers
 
