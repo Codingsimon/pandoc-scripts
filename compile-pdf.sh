@@ -15,7 +15,7 @@ source venv/bin/activate
 
 pip install -r .pandoc/requirements.txt --no-binary :all:
 
-# asdf bin/clean-all.sh
+bin/clean-all.sh
 
 source bin/base.env
 
