@@ -172,8 +172,6 @@ fi
 echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
 
 ## define pandoc command
-
-
 echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"\" \
     ${FILTER_DEMOTE_HEADER} \
     ${COMMAND_CROSSREF} \
@@ -191,12 +189,4 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMA
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
     
 bash start.sh
-
-# cleanup temporary files
-
-#aasdf rm $FILENAME_TEMP
-
-#asdf rm start.sh
-#asdf [[ -e $FILENAME_TEMP.index ]] && rm $FILENAME_TEMP.index
-
 echo Finish $BASENAME
