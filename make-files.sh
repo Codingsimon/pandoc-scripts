@@ -2,16 +2,9 @@
 
 OUTPUT_DIR="build"
 
-POSITIONAL=()
-
-echo POSITIONAL
-echo $POSITIONAL
-
+#getting parameters for pandoc commands from positional
 while [[ $# -gt 0 ]] ; do
     key="$1"
-echo key
-echo $key
-
     case $key in
         -s|--source)
             SF="$2"
