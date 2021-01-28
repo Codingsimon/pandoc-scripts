@@ -5,6 +5,10 @@ sleep_one_second() {
 }
 
 print_empty_lines() {
+        echo testInFunctionClass
+        echo $1
+        cat $1
+        echo testInFunctionClassEnd
       echo >> $1
       echo >> $1
 }
