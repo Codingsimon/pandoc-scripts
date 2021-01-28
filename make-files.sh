@@ -92,8 +92,8 @@ ls
             # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
 	    echo testStart
-	    echo "#" `sed ${SED_YAML_HEADER} "${p}"
-	    echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'`
+	    cat $FILENAME_TEMP
+	    cat ${FILENAME_TEMP}.index
 	     echo testEnd
                 echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
                 print_empty_lines ${FILENAME_TEMP}
