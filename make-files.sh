@@ -91,6 +91,10 @@ ls
             DIR=$(dirname "${p}")
             # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
+	    echo testStart
+	    echo "#" `sed ${SED_YAML_HEADER} "${p}"
+	    echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'`
+	     echo testEnd
                 echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
                 print_empty_lines ${FILENAME_TEMP}
             fi
@@ -100,6 +104,7 @@ ls
             print_empty_lines ${FILENAME_TEMP}
         fi
     done < $FILENAME_TEMP.index  
+    
 else
     create_frontmatter "single"
     LINES=$(sed ${SED_YAML_HEADER} ${BASENAME}${MARKDOWN_EXTENSION} | wc -l)
