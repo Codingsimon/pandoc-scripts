@@ -51,9 +51,6 @@ if [[ ${BOOK} = true ]] ; then
         export MARKDOWN_FILENAME
         export MARKDOWN_EXTENSION
         ./${BASENAME}.sh > ${FILENAME_TEMP}.index
-	echo aaaaaaaaaaaaaaaaaaaaaa
-	cat ./TEMP_book.index
-	echo aaaaaaaaaaaaaaaaaaaaaa
     else
         # file index is manually defined in a text file
         cat "${BASENAME}.txt" > ${FILENAME_TEMP}.index
@@ -62,26 +59,16 @@ if [[ ${BOOK} = true ]] ; then
     # remove README.md and all files found in .pandoc or bin
     cat ${FILENAME_TEMP}.index | grep -v "README.md" | grep -v "\/\.pandoc\/" | grep -v "\/\bin\/" > ${FILENAME_TEMP}_FIX.index
     
-    echo lsBeforeRemove
-ls
 
-echo fileName_Fix
-cat ${FILENAME_TEMP}_FIX.index
     
     mv ${FILENAME_TEMP}_FIX.index ${FILENAME_TEMP}.index
 
-echo normalFileName_TEMP
-cat $FILENAME_TEMP.index
-
-
-
-echo lsAfterRemove
-ls
 
     [[ ${DEBUG} = true ]] && cat $FILENAME_TEMP.index
 
     # Combine files
     while read p; do
+    echo LINE
     echo $p
         if [[ $p = "./_index${MARKDOWN_EXTENSION}" ]] ; then
 	echo inIfBlock
@@ -92,7 +79,6 @@ ls
             # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
 	    echo testStart
-	    cat $FILENAME_TEMP
 	    cat ${FILENAME_TEMP}.index
 	     echo testEnd
                 echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
