@@ -5,8 +5,8 @@ sleep_one_second() {
 }
 
 print_empty_lines() {
-    echo >> $1
-    echo >> $1
+    # echo >> $1
+    # echo >> $1
 }
 
 copy_yaml() {
