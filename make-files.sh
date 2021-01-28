@@ -83,7 +83,7 @@ if [[ ${BOOK} = true ]] ; then
                 echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
 		echo test1
 	    cat ${FILENAME_TEMP}
-                # print_empty_lines ${FILENAME_TEMP}
+                print_empty_lines ${FILENAME_TEMP}
 		
 		echo test2
 	    cat ${FILENAME_TEMP}
@@ -94,7 +94,7 @@ if [[ ${BOOK} = true ]] ; then
             # add the source file content without frontmatter
             LINES=$(sed ${SED_YAML_HEADER} "${p}" | wc -l)
             awk "NR > $LINES" < "$p" | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
-            # print_empty_lines ${FILENAME_TEMP}
+            print_empty_lines ${FILENAME_TEMP}
         fi
     done < $FILENAME_TEMP.index  
     
@@ -102,7 +102,7 @@ else
     create_frontmatter "single"
     LINES=$(sed ${SED_YAML_HEADER} ${BASENAME}${MARKDOWN_EXTENSION} | wc -l)
     awk "NR > $LINES { print }" < ${BASENAME}${MARKDOWN_EXTENSION} >> $FILENAME_TEMP
-    # print_empty_lines ${FILENAME_TEMP}
+    print_empty_lines ${FILENAME_TEMP}
 fi
 
 ###############################################################################
