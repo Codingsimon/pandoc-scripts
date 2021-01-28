@@ -80,9 +80,16 @@ if [[ ${BOOK} = true ]] ; then
             if [[ ! $(basename "${p}") = "_"* ]] ; then
 	    echo testStart
 	    cat ${FILENAME_TEMP}
-	     echo testEnd
                 echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
+		echo test1
+	    cat ${FILENAME_TEMP}
                 print_empty_lines ${FILENAME_TEMP}
+		
+		echo test2
+	    cat ${FILENAME_TEMP}
+		
+			     echo testEnd
+
             fi
             # add the source file content without frontmatter
             LINES=$(sed ${SED_YAML_HEADER} "${p}" | wc -l)
