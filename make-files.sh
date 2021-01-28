@@ -82,7 +82,9 @@ ls
 
     # Combine files
     while read p; do
+    echo $p
         if [[ $p = "./_index${MARKDOWN_EXTENSION}" ]] ; then
+	echo inIfBlock
             # first the frontmatter defined in the source file
             create_frontmatter "book"
         else
