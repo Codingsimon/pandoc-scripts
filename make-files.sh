@@ -97,6 +97,8 @@ if [[ ${BOOK} = true ]] ; then
     echo $LINES
     echo LinesCat
     cat $LINE
+        echo LinesCatEND
+
             awk "NR > $LINES" < "$p" | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
             print_empty_lines ${FILENAME_TEMP}
         fi
