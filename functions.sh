@@ -24,16 +24,22 @@ copy_yaml() {
 create_frontmatter() {
     if [[ $1 = "book" ]] ; then
         copy_yaml "_index${MARKDOWN_EXTENSION}" ${FILENAME_TEMP}
+        echo firstCopyYamlStart
+        cat  ${FILENAME_TEMP}
     else
         copy_yaml "${BASENAME}${MARKDOWN_EXTENSION}" ${FILENAME_TEMP}
     fi
     # second the base settings for books
     if [[ -e $BASE_DIR/settings-book.yml ]] ; then
         copy_yaml "${BASE_DIR}/settings-${1}.yml" ${FILENAME_TEMP}
+        echo secondCopyYaml
+        cat  ${FILENAME_TEMP}
     fi
     # third the general settings
     if [[ -e $BASE_DIR/settings-general.yml ]] ; then
         copy_yaml "${BASE_DIR}/settings-general.yml" ${FILENAME_TEMP}
+         echo thirdCopyYaml
+        cat  ${FILENAME_TEMP}
     fi
     
     print_empty_lines ${FILENAME_TEMP}
