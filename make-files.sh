@@ -93,13 +93,12 @@ if [[ ${BOOK} = true ]] ; then
             fi
             # add the source file content without frontmatter
             LINES=$(sed ${SED_YAML_HEADER} "${p}" | wc -l)
-	     echo LinesEcho
-    echo $LINES
-    echo LinesCat
-    cat $LINE
-        echo LinesCatEND
 
             awk "NR > $LINES" < "$p" | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
+	    
+	    	
+		echo testfinal
+	    cat ${FILENAME_TEMP}
             print_empty_lines ${FILENAME_TEMP}
         fi
     done < $FILENAME_TEMP.index  
