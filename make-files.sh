@@ -101,6 +101,10 @@ if [[ ${BOOK} = true ]] ; then
 else
     create_frontmatter "single"
     LINES=$(sed ${SED_YAML_HEADER} ${BASENAME}${MARKDOWN_EXTENSION} | wc -l)
+    echo LinesEcho
+    echo $LINES
+    echo LinesCat
+    cat $LINE
     awk "NR > $LINES { print }" < ${BASENAME}${MARKDOWN_EXTENSION} >> $FILENAME_TEMP
     print_empty_lines ${FILENAME_TEMP}
 fi
