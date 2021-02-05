@@ -167,8 +167,6 @@ echo OUTPUT_FILE "$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"
 
 echo ##################################################################
 
-cat $FILENAME_TEMP
-
 ## define pandoc command
 echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMAT}"\" \
     ${FILTER_DEMOTE_HEADER} \
