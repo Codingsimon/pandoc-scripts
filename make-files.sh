@@ -68,6 +68,7 @@ if [[ ${BOOK} = true ]] ; then
 
     # Combine files
     while read p; do
+    	echo INDEXNAME ${p}
         if [[ $p = "./_index${MARKDOWN_EXTENSION}" ]] ; then
             # first the frontmatter defined in the source file
             create_frontmatter "book"
@@ -80,6 +81,8 @@ if [[ ${BOOK} = true ]] ; then
             fi
             # add the source file content without frontmatter
             LINES=$(sed ${SED_YAML_HEADER} "${p}" | wc -l)
+	    echo LINES
+	    echo $LINES
             awk "NR > $LINES" < "$p" | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
             print_empty_lines ${FILENAME_TEMP}
         fi
