@@ -68,37 +68,19 @@ if [[ ${BOOK} = true ]] ; then
 
     # Combine files
     while read p; do
-    echo LINE
-    echo $p
         if [[ $p = "./_index${MARKDOWN_EXTENSION}" ]] ; then
-	echo inIfBlock
             # first the frontmatter defined in the source file
             create_frontmatter "book"
         else
             DIR=$(dirname "${p}")
             # add a first level heading for content files
             if [[ ! $(basename "${p}") = "_"* ]] ; then
-	    echo testStart
-	    cat ${FILENAME_TEMP}
                 echo "#" `sed ${SED_YAML_HEADER} "${p}" | grep "title:" | sed 's/^[^:]*:[[:space:]]*//'` >> $FILENAME_TEMP
-		echo test1
-	    cat ${FILENAME_TEMP}
                 print_empty_lines ${FILENAME_TEMP}
-		
-		echo test2
-	    cat ${FILENAME_TEMP}
-		
-			     echo testEnd
-
             fi
             # add the source file content without frontmatter
             LINES=$(sed ${SED_YAML_HEADER} "${p}" | wc -l)
-
             awk "NR > $LINES" < "$p" | sed 's@\(!\[.*\]\)(\(.*\))\(.*\)@\1('"$DIR"'\/\2)\3@g' >> $FILENAME_TEMP
-	    
-	    	
-		echo testfinal
-	    cat ${FILENAME_TEMP}
             print_empty_lines ${FILENAME_TEMP}
         fi
     done < $FILENAME_TEMP.index  
@@ -110,7 +92,7 @@ else
     awk "NR > $LINES { print }" < ${BASENAME}${MARKDOWN_EXTENSION} >> $FILENAME_TEMP
     print_empty_lines ${FILENAME_TEMP}
 fi
-
+  cat ${FILENAME_TEMP}
 ###############################################################################
 # Pandoc filter
 ###############################################################################
