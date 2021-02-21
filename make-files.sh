@@ -184,6 +184,7 @@ echo ${PANDOC_COMMAND} $FILENAME_TEMP -o \""$OUTPUT_DIR/$BASENAME.${OUTPUT_FORMA
     -V logo-jku=$BASE_DIR/.pandoc/templates/jku_de.pdf \
     -V logo-k=$BASE_DIR/.pandoc/templates/arr.pdf \
     -V img-cc=$BASE_DIR/.pandoc/templates/cc.png > start.sh 
-    
+ 
+cat start.sh
 bash start.sh
 echo Finish $BASENAME
